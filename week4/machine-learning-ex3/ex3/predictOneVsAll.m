@@ -30,13 +30,17 @@ X = [ones(m, 1) X];
 %       for each row.
 %       
 
+%disp(size(X));    % 5000 * 401
+%disp(size(all_theta));    % 10 401
+%disp(size(p));    % 5000 * 1
 
+h = sigmoid(X * all_theta');
+%disp(size(h));  % 5000 * 10
 
-
-
-
-
+[max_v, index] = max(h');
+%disp(size(max_v)); % 1 * 5000
+%disp(size(index)); % 1 * 5000
+p = index';
 % =========================================================================
-
 
 end

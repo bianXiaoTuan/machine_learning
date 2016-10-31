@@ -21,15 +21,32 @@ p = zeros(size(X, 1), 1);
 %       can use max(A, [], 2) to obtain the max for each row.
 %
 
+%disp(size(Theta1));  % 25 * 401
+%disp(size(Theta2));  % 10 * 26
 
+%disp(num_labels);  % 10
+%disp(size(p));  % 5000 * 1
 
+X = [ones(m, 1) X];
+%disp(size(X));  % 5000 * 401
 
+a = X * Theta1';
+%disp(size(a));  % 5000 * 25
 
+b = sigmoid(a);
+%disp(size(b));  % 5000 * 25
 
+b = [ones(size(b, 1), 1) b];
+%disp(size(b));  % 5000 * 26
 
+c = b * Theta2';
+%disp(size(c));  % 5000 * 10
 
+[max_v, index] = max(c');
+%disp(size(max_v)); % 1 * 5000
+%disp(size(index)); % 1 * 5000
+
+p = index';
 
 % =========================================================================
-
-
 end
