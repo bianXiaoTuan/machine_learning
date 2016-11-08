@@ -133,8 +133,18 @@ for t = 1:m
     %disp(size(Theta1_grad));    % 25 * 401
 end
 
-Theta2_grad = Theta2_grad / m;
-Theta1_grad = Theta1_grad / m;
+theta1_m = size(Theta1, 1);
+theta2_m = size(Theta2, 1);
+
+%disp(theta1_m);    % 25
+%disp(theta2_m);    % 10
+
+Theta1_grad = Theta1_grad / m + [zeros(theta1_m, 1) Theta1(:, 2:end)] * lambda / m;
+Theta2_grad = Theta2_grad / m + [zeros(theta2_m, 1) Theta2(:, 2:end)] * lambda / m;
+
+%disp(size(Theta1_grad));    % 25 * 401
+%disp(size(Theta2_grad));    % 10 * 26
+
 
 % =========================================================================
 
