@@ -20,12 +20,8 @@ W = zeros(L_out, 1 + L_in);
 %
 
 
-
-
-
-
-
-
+espilon_init = 0.12;
+W = rand(L_out, 1 + L_in) * 2 * espilon_init - espilon_init;
 
 % =========================================================================
 

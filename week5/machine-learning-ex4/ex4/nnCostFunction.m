@@ -70,7 +70,7 @@ A1 = sigmoid(X * Theta1');
 A1 = [ones(size(A1, 1), 1) A1];
 h = sigmoid(A1 * Theta2');
 
-% Enlarge y as 5000 * 10
+% Enlarge y to 5000 * 10
 Y = zeros(size(h));
 for i = 1:size(y, 1)
     Y(i, y(i)) = 1;
@@ -80,7 +80,7 @@ end
 j = -Y .* log(h) - (1 - Y) .* log(1 - h);
 J = sum(sum(j, 2)) / m;
 
-% bias
+% Bias
 theta1 = Theta1(:, 2:size(Theta1, 2));    % 25 * 400
 theta2 = Theta2(:, 2:size(Theta2, 2));    % 10 * 25
 bias1 = sum(sum(theta1 .^ 2, 2));
@@ -89,7 +89,55 @@ bias = (bias1 + bias2) * lambda / (2 * m);
 
 % Add bias
 J = J + bias;
+
 % -------------------------------------------------------------
+disp(size(X));    % 5000 * 401
+disp(size(Theta1));    % 25 * 401
+disp(size(Theta2));    % 10 * 26
+
+m = 1;
+for t = 1:m
+    % 前向传播
+    a1 = X(t, :)';
+    disp(size(a1));    % 401 * 1
+    
+    z2 = Theta1 * a1;
+    a2 = sigmoid(z2);
+    
+    disp(size(z2));    % 25 * 1
+    disp(size(a2));    % 25 * 1
+    a2 = [1; a2];
+    disp(size(a2));    % 26 * 1
+    
+    z3 = Theta2 * a2;
+    a3 = sigmoid(z3);
+    
+    disp(size(a3));   % 10 * 1
+    disp(a3);
+    
+    disp(size(Y));    % 5000 * 10
+    disp(Y(t, :));    % 1 * 10
+    
+    % 计算第三层误差
+    o3 = a3 - Y(t, :)';
+    disp(size(o3));    % 10 * 1;
+    
+    % 计算第二次误差
+    o2 = (Theta2(:, 2:end)' * o3) .* sigmoidGradient(z2);
+    disp(size(o2));    % 25 * 1
+    disp(o2);
+    
+    % 计算第三层梯度
+    Theta2_grad = Theta2_grad + o3 * a2';
+    disp(size(Theta2_grad));    % 10 * 26
+    
+    % 计算第二层梯度
+    Theta1_grad = Theta1_grad + o2 * a1';
+    disp(size(Theta1_grad));    % 25 * 401
+end
+
+Theta2_grad = Theta2_grad / m;
+Theta1_grad = Theta1_grad / m;
 
 % =========================================================================
 
