@@ -39,14 +39,32 @@ error_val = zeros(length(lambda_vec), 1);
 %
 %
 
+%disp(size(X));    % 12 * 9
+%disp(size(y));    % 12 * 1
+%disp(size(Xval));    % 21 * 9
+%disp(size(yval));    % 21 * 1
+
+%disp(size(error_train));    % 10 * 1
+%disp(size(error_val));    % 10 * 1
+
+%disp(size(lambda_vec));    % 10 * 1
 
 
-
-
-
-
-
-
+m = size(lambda_vec, 1);
+for n = 1:m
+    lambda = lambda_vec(n);
+    
+    theta = trainLinearReg(X, y, lambda);
+    
+    % size 是训练集的size, 注意lambda计算error的时候设置为0
+    J = linearRegCostFunction(X, y, theta, 0);
+    
+    % cv 集使用全量数据计算error, 注意lambda计算error的时候设置为0
+    Jval = linearRegCostFunction(Xval, yval, theta, 0);
+    
+    error_train(n) = J;
+    error_val(n) = Jval;
+end
 
 % =========================================================================
 

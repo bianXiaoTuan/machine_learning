@@ -54,10 +54,24 @@ error_val   = zeros(m, 1);
 % ---------------------- Sample Solution ----------------------
 
 
+%disp(size(X));    % 12 * 2
+%disp(size(y));    % 12 * 1
+%disp(size(Xval));    % 21 * 2
+%disp(size(yval));    % 21 * 1
+%disp(lambda);    % 0
 
-
-
-
+for n = 1:m
+    theta = trainLinearReg(X(1:n, :), y(1:n), lambda);
+    
+    % size 是训练集的size, 注意lambda计算error的时候设置为0
+    J = linearRegCostFunction(X(1:n, :), y(1:n), theta, 0);
+    
+    % cv 集使用全量数据计算error, 注意lambda计算error的时候设置为0
+    Jval = linearRegCostFunction(Xval, yval, theta, 0);
+    
+    error_train(n) = J;
+    error_val(n) = Jval;
+end
 
 % -------------------------------------------------------------
 
