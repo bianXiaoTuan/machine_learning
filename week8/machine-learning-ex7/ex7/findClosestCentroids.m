@@ -19,15 +19,22 @@ idx = zeros(size(X,1), 1);
 %               range 1..K
 %
 % Note: You can use a for-loop over the examples to compute this.
-%
 
+m = size(X, 1);
+MAX_NUM = 100000000000000000;
 
+for i = 1:m
+	small_distance = MAX_NUM;
+	for j =1:K
+		dis = distance(X(i, :), centroids(j, :));
+		if dis <= small_distance
+			small_distance = dis;
+			idx(i) = j;
+		end	
+	end	
+end
 
-
-
-
-
-% =============================================================
+% % =============================================================
 
 end
 
