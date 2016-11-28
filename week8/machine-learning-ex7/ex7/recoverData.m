@@ -21,7 +21,15 @@ X_rec = zeros(size(Z, 1), size(U, 1));
 %               Notice that U(j, 1:K) is a row vector.
 %               
 
+% disp(size(Z));    % 50 * 1
+% disp(size(U));    % 2 * 2
+% disp(size(K));    % 1 * 1
+% disp(size(X_rec));    % 50 * 2
 
+U_reduce = U(:, 1:K);
+disp(size(U_reduce));
+
+X_rec = Z * U_reduce';
 
 % =============================================================
 
