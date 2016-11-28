@@ -30,33 +30,17 @@ for epsilon = min(pval):stepsize:max(pval)
     
     predictions = (pval < epsilon);
     
-    m = size(yval, 1);
-    
-    tp = 0; % it's anomaly and predict anomaly
-    fp = 0; % it's normaly but predict anomaly
-    fn = 0; % it's anomaly but predict normaly
-    
-    for i = 1:m
-        if yval(i) == 1 && predictions(i) == 1
-            tp = tp + 1;
-        elseif yval(i) == 0 && predictions(i) == 1
-            fp = fp + 1;
-        elseif yval(i) == 1 && predictions(i) == 0
-            fn = fn + 1;
-        end
-    end
-    
-    
+    tp = sum((yval == 1) & (predictions == 1)); % it's anomaly and predict anomaly
+    fp = sum((yval == 0) & (predictions == 1)); % it's normaly but predict anomaly
+    fn = sum((yval == 1) & (predictions == 0)); % it's anomaly but predict normaly
+
     prec = tp / (tp + fp);
     rec = tp / (tp + fn);
-    F1 = 2 * prec * rec / (prec * rec);
+    F1 = 2 * prec * rec / (prec + rec);
 
     % =============================================================
-
     if F1 > bestF1
        bestF1 = F1;
        bestEpsilon = epsilon;
     end
-end
-
 end

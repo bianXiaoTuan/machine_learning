@@ -40,20 +40,50 @@ Theta_grad = zeros(size(Theta));
 %                     partial derivatives w.r.t. to each element of Theta
 %
 
+% disp(size(X));    % 5 * 3
+% disp(size(Theta));    % 4 * 3
+% disp(size(Y));    % 5 * 4
+% disp(size(R));    % 5 * 4
+% disp(num_movies);    % 5
+% disp(num_users);    % 4
+% disp(num_features);    % 3
+% disp(lambda);    % 0
+% disp(size(X_grad));    % 5 * 3
+% disp(size(Theta_grad));    % 4 * 3
 
+J = sum(sum(((X * Theta' - Y) .* R) .^ 2)) / 2; 
+Theta_bias = lambda * sum(sum(Theta .^ 2)) / 2;
+X_bias = lambda * sum(sum(X .^ 2)) / 2;
 
+J = J + Theta_bias + X_bias;
 
+j = X * Theta' - Y;    % 5 * 4
 
+% X_grad
+for m = 1:num_movies    % 5
+	for k = 1:num_features    % 3
+		X_grad(m, k) = 0;
+		for u = 1:num_users    % 4
+			if R(m, u) == 1
+			    X_grad(m, k) = X_grad(m, k) + j(m, u) * Theta(u, k); 
+	        end 
+		end
+		X_grad(m, k) = X_grad(m, k) + lambda * X(m, k);
+	end
+end	
 
-
-
-
-
-
-
-
-
-
+% Theta_grad
+for u = 1:num_users    % 4
+	for k = 1:num_features    % 3
+		Theta_grad(u, k) = 0;
+		for m = 1:num_movies    % 5
+			if R(m, u) == 1
+			    Theta_grad(u, k) = Theta_grad(u, k) + j(m, u) * X(m, k);
+	        end 
+		end
+		Theta_grad(u, k) = Theta_grad(u, k) + lambda * Theta(u, k);
+	end
+end	
 
 % =============================================================
 
